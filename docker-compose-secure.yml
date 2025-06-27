@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  serial-reader:
+    build: .
+    container_name: lora-serial-reader
+    # Option 1: Mount specific serial devices (most secure)
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+      - "/dev/ttyACM0:/dev/ttyACM0"
+      - "/dev/ttyS0:/dev/ttyS0"
+    # Option 2: Use device cgroups (alternative approach)
+    # cgroup_parent: /devices/serial
+    # Option 3: Use specific device groups
+    # group_add:
+    #   - dialout
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+      # Option 4: Pass device path as environment variable
+      - SERIAL_PORT=/dev/ttyUSB0
+    restart: unless-stopped
+    command: ["python", "serial_reader.py"]
+    stdin_open: true
+    tty: true 

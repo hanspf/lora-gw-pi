@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  serial-reader:
+    build: .
+    container_name: lora-serial-reader
+    # Dynamic device mounting using external script
+    volumes:
+      - ./logs:/app/logs
+      - ./scripts:/scripts:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+    restart: unless-stopped
+    command: ["/scripts/start-with-devices.sh"]
+    stdin_open: true
+    tty: true
+    # Use host networking for better device access
+    network_mode: host 

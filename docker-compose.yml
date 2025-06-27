@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  serial-reader:
+    build: .
+    container_name: lora-serial-reader
+    # Run in privileged mode to access serial devices
+    privileged: true
+    # Mount all serial devices
+    devices:
+      - "/dev:/dev"
+    # Mount current directory for logs/output
+    volumes:
+      - ./logs:/app/logs
+    # Set environment variables
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+    # Restart policy
+    restart: unless-stopped
+    # Command to run (can be overridden)
+    command: ["python", "serial_reader.py"]
+    # Interactive mode for debugging
+    stdin_open: true
+    tty: true 

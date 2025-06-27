@@ -9,9 +9,6 @@ services:
     # Mount all serial devices
     devices:
       - "/dev:/dev"
-    # Mount current directory for logs/output
-    volumes:
-      - ./logs:/app/logs
     # Set environment variables
     environment:
       - PYTHONUNBUFFERED=1

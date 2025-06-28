@@ -25,7 +25,7 @@ class SerialReader:
     """
     
     def __init__(self, 
-                 port: str = '/dev/ttyUSB0',
+                 port: str = '/dev/ttyS0',
                  baudrate: int = 9600,
                  timeout: float = 1.0,
                  bytesize: int = serial.EIGHTBITS,

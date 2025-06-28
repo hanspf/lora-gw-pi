@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  serial-reader:
+    build: .
+    container_name: lora-serial-reader
+    # Raspberry Pi specific serial devices
+    devices:
+      - "/dev/ttyAMA0:/dev/ttyAMA0"  # Hardware UART
+      - "/dev/ttyS0:/dev/ttyS0"      # Mini UART
+      - "/dev/serial0:/dev/serial0"  # Hardware UART (alternative)
+      - "/dev/serial1:/dev/serial1"  # Mini UART (alternative)
+      - "/dev/ttyUSB0:/dev/ttyUSB0"  # USB serial devices
+      - "/dev/ttyACM0:/dev/ttyACM0"  # ACM devices
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+      # Raspberry Pi specific environment variables
+      - RPI_SERIAL_PORT=/dev/ttyAMA0
+      - RPI_BAUDRATE=9600
+    restart: unless-stopped
+    command: ["python", "serial_reader.py"]
+    stdin_open: true
+    tty: true 

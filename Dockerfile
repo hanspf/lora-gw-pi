@@ -18,13 +18,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the serial reader script
 COPY serial_reader.py .
 
-# Create a non-root user for security
-RUN useradd -m -u 1000 serialuser && \
-    chown -R serialuser:serialuser /app
-
-# Switch to non-root user
-USER serialuser
-
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
